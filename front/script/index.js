@@ -23,17 +23,34 @@ async function getArticles(){
 function displayArticle(articles){
   let items = document.querySelector(".items")
   // boucler sur les articles
-  //console.log(articles)
   for (let i = 0; i < articles.length; i++) {
     console.log(articles[i])
-    // créer les éléments DOM
-    let articleLink = document.createElement('a');
-    // remplir les attributs DOM avec les propriétés de mes objets 
-    articleLink.href = "./product.html?id=" + articles[i]._id
-    articleLink.innerHTML = "test"
-    // injecter ce DOM modifié dans le HTML
-    items.appendChild(articleLink)
+
+    //Lien
+    let productLink = document.createElement('a'); // 1 : Créer les éléments DOM
+    productLink.href = "./product.html?id=" + articles[i]._id // 2 : Remplir les attributs DOM avec les propriétés de mes objets
+    items.appendChild(productLink) // 3 : Injecter ce DOM modifié dans le HTML
+
+    //Article
+    let productArticle = document.createElement('article');
+    productLink.appendChild(productArticle)
+
+    //Image
+    let productImage = document.createElement('img');
+    productArticle.appendChild(productImage)
+    productImage.src = articles[i].imageUrl
+    productImage.alt = articles[i].altTxt
+
+    //Nom du canapé
+    let productName = document.createElement('h3');
+    productArticle.appendChild(productName)
+    productName.classList.add('productName')
+    productName.innerHTML = articles[i].name
+
+    //Description
+    let productDescription = document.createElement('p');
+    productArticle.appendChild(productDescription)
+    productDescription.classList.add('productDescription')
+    productDescription.innerHTML = articles[i].description
   }
-  
-  // document.getElementById("items").innerHTML += '<a href="./product.html?id=42"><article><img src=".../product01.jpg" alt="Lorem ipsum dolor sit amet, Kanap name1"><h3 class="productName">${article.name}</h3><p class="productDescription">Dis enim malesuada risus sapien gravida nulla nisl arcu. Dis enim malesuada risus sapien gravida nulla nisl arcu.</p></article></a>'
 }

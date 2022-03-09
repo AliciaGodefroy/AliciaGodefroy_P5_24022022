@@ -54,3 +54,4 @@ function displayArticle(articles){
     productDescription.innerHTML = articles[i].description
   }
 }
+

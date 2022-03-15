@@ -50,9 +50,11 @@ function displayProduct(product){
     }
 }
 
-       // TUTO YOUTUBE 
+/*import { addPanier } from '../js/panier.js';*/
 
-// Mise en place du Local Storage
+
+//-------------------- MISE EN PLACE DU LOCAL STORAGE ---------------------
+
 
 function savePanier(panier){
   localStorage.setItem("panier", JSON.stringify(panier)); //JSON.stringify permet de transformer l'objet en chaine de caractères
@@ -103,19 +105,32 @@ function changeQuantity(item,quantity){
   savePanier(panier);
 } //ne fonctionne pas ?
 
-      // FIN TUTO YOUTUBE
+// Nombre d'article dans le panier
 
-// Création de l'item (ligne de produit dans le panier)
-class item{
-  constructor (id, option, quantity){
-    this.id = id;
-    this.option = option;
-    this.quantity = quantity;
+function getNumberItem(){
+  let panier = getPanier();
+  let number =  0;
+  for(let item of panier){
+    number += item.quantity;
   }
+  return number;
 }
 
-const quantity = document.getElementById("quantity")
-const option = document.getElementById("colors")
+// Prix total du panier
+function getTotalPrice(){
+  let panier = getPanier();
+  let total =  0;
+  for(let item of panier){
+    total += item.quantity * item.price;
+  }
+  return total;
+}
+
+//-------------------- FIN ---------------------
+
 
 // Mise en place du bouton "Ajouter au panier"
+let addToCart = document.getElementById("addToCart")
+// Enregistrer le bouton
+addToCart.addEventListener("click",addPanier)
 

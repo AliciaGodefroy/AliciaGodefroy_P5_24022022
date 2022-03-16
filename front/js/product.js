@@ -48,13 +48,13 @@ function displayProduct(product){
       selectOption.value = product.colors[i]
       selectColor.appendChild(selectOption)
     }
+    addPanier()
 }
 
 /*import { addPanier } from '../js/panier.js';*/
 
 
 //-------------------- MISE EN PLACE DU LOCAL STORAGE ---------------------
-
 
 function savePanier(panier){
   localStorage.setItem("panier", JSON.stringify(panier)); //JSON.stringify permet de transformer l'objet en chaine de caractères
@@ -133,4 +133,5 @@ function getTotalPrice(){
 let addToCart = document.getElementById("addToCart")
 // Enregistrer le bouton
 addToCart.addEventListener("click",addPanier)
+
 

@@ -6,12 +6,15 @@ console.log(url)
 let id = url.searchParams.get("id")
 console.log(id)
 
+var globalProduct = {}
+
 // Appel de l'API 
 fetch('http://localhost:3000/api/products/'+id)
   .then(function(httpBodyResponse){
     return httpBodyResponse.json()
   })
   .then(function(product){
+    globalProduct = product
     displayProduct(product)
   })
   .catch(function(err){
@@ -48,7 +51,6 @@ function displayProduct(product){
       selectOption.value = product.colors[i]
       selectColor.appendChild(selectOption)
     }
-    addPanier()
 }
 
 /*import { addPanier } from '../js/panier.js';*/
@@ -62,6 +64,7 @@ function savePanier(panier){
 
 function getPanier(){
   let panier = localStorage.getItem("panier");
+  console.log('panier', panier)
   if(panier == null){
     return [ ];
   }else{
@@ -71,60 +74,77 @@ function getPanier(){
 
 // Création de l'ajout au panier
 
-function addPanier(item){
+function addPanier(){
+  let objectCart = {}
   let panier = getPanier();
-  let foundItem = panier.find(p => p.id == item.id); //Gestion des quantités (ajout d'un item si le produit existe déjà)
-  if(foundItem != undefined){
-    foundItem.quantity++;
+  let foundProduct = panier.find(p => p.id == objectCart.id&& p.selectedVariant == objectCart.selectedVariant); //Gestion des quantités (ajout d'un item si le produit existe déjà)
+  if(foundProduct != undefined){
+     foundProduct.quantity++;
   }else {
-    item.quantity = 1;
-    panier.push(item); // On considère le panier comme un tableau, et on push l'item dans le tableau
+    objectCart.info = globalProduct
+    objectCart.quantity = document.getElementById("quantity").value
+    objectCart.selectedVariant = document.getElementById("colors").value
+
+    panier.push(objectCart); // On considère le panier comme un tableau, et on push l'item dans le tableau
   }
   savePanier(panier);
 }
+
+// // Éviter les doublons dans le panier
+// function productVerif (panier, objectCart){
+//   const object = panier.find(element => element.id === objectCart.id&& element.selectedVariant === objectCart.selectedVariant);
+//   if(object){
+//     const n = parseInt(object.quantity);
+//     const m = parseInt(objectCart.quantity);
+//     object.quantity = (n+ m).toString();
+//   }else{
+//     panier.push(objectCart);
+//   }
+// }
 
 // Retirer un item du panier
 
-function removeFromPanier(item){
-  let panier = getPanier();
-  panier = panier.filter(p => p.id != item.id);
-  savePanier(panier);
-}
+// function removeFromPanier(){
+//   let panier = getPanier();
+//   panier = panier.filter(p => p.id != objectCart.id);
+//   savePanier(panier);
+// }
 
 // Changer la quantitée (est-ce que c'est nécessaire?)
 
-function changeQuantity(item,quantity){
-  let panier = getPanier();
-  let foundItem = panier.find(p => p.id == item.id);
-  if(foundItem != undefined){
-    foundItem.quantity += quantity;
-    if(foundItem.quantity <= 0){
-      removeFromPanier(foundItem);
-    }
-  }
-  savePanier(panier);
-} //ne fonctionne pas ?
+// function changeQuantity(item,quantity){
+//   let panier = getPanier();
+//   let foundItem = panier.find(p => p.id == item.id);
+//   if(foundItem != undefined){
+//     foundItem.quantity += quantity;
+//     if(foundItem.quantity <= 0){
+//       removeFromPanier(foundItem);
+//     }
+//   }
+//   savePanier(panier);
+// } //ne fonctionne pas ?
 
 // Nombre d'article dans le panier
 
-function getNumberItem(){
-  let panier = getPanier();
-  let number =  0;
-  for(let item of panier){
-    number += item.quantity;
-  }
-  return number;
-}
+// function getNumberItem(){
+//   let panier = getPanier();
+//   let number =  0;
+//   for(let item of panier){
+//     number += item.quantity;
+//   }
+//   return number;
+// }
 
-// Prix total du panier
-function getTotalPrice(){
-  let panier = getPanier();
-  let total =  0;
-  for(let item of panier){
-    total += item.quantity * item.price;
-  }
-  return total;
-}
+// // Prix total du panier
+// function getTotalPrice(){
+//   let panier = getPanier();
+//   let total =  0;
+//   for(let item of panier){
+//     total += item.quantity * item.price;
+//   }
+//   return total;
+// }
+
 
 //-------------------- FIN ---------------------
 

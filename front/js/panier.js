@@ -1,3 +1,4 @@
+//-------------------- OPTION 1 -----------------------------
 // Mise en place du Local Storage
 
 function savePanier(panier){
@@ -69,3 +70,22 @@ function savePanier(panier){
     }
     return total;
   }
+
+/*
+//--------------------------- OPTION 2 -----------------------
+
+//------GESTION DU PANIER
+// Récupération des données sélectionnées par l'utilisateur et envoi au panier
+
+//Sélection de du bouton Ajouter au panier
+const envoyerPanier = document.getElementById("addToCart")
+
+//addEventListener - Pour écouter le bouton et envoyer le panier
+envoyerPanier.addEventListener ("click", (event)=> {
+  event.preventDefault();
+
+  //--- Récupérer les valeurs du produit choisi
+  let optionsProduct = {
+
+  }
+})*/

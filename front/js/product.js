@@ -75,32 +75,29 @@ function getPanier(){
 // Création de l'ajout au panier
 
 function addPanier(){
-  let objectCart = {}
+  var objectCart = {}
   let panier = getPanier();
-  let foundProduct = panier.find(p => p.id == objectCart.id&& p.selectedVariant == objectCart.selectedVariant); //Gestion des quantités (ajout d'un item si le produit existe déjà)
+  objectCart.info = globalProduct
+  objectCart.quantity = document.getElementById("quantity").value
+  objectCart.selectedVariant = document.getElementById("colors").value
+  // On vérifie si le produit est déjà existant dans le panier
+  let foundProduct = panier.find(p => p.id == objectCart._id&& p.selectedVariant == objectCart.selectedVariant);
+  // Si le produit est différent d'une valeur non définie (et donc égal à un produit dans le panier)
   if(foundProduct != undefined){
-     foundProduct.quantity++;
-  }else {
-    objectCart.info = globalProduct
-    objectCart.quantity = document.getElementById("quantity").value
-    objectCart.selectedVariant = document.getElementById("colors").value
-
+    // On incrémente la quantité en plus
+    const n = parseInt(foundProduct.quantity);
+    const m = parseInt(objectCart.quantity);
+    foundProduct.quantity = (n+m).toString();
+  }
+  // Sinon, on ajoute simplement le produit (et donc son id, sa quantité et sa couleur) au panier
+  else {
     panier.push(objectCart); // On considère le panier comme un tableau, et on push l'item dans le tableau
   }
   savePanier(panier);
 }
 
-// // Éviter les doublons dans le panier
-// function productVerif (panier, objectCart){
-//   const object = panier.find(element => element.id === objectCart.id&& element.selectedVariant === objectCart.selectedVariant);
-//   if(object){
-//     const n = parseInt(object.quantity);
-//     const m = parseInt(objectCart.quantity);
-//     object.quantity = (n+ m).toString();
-//   }else{
-//     panier.push(objectCart);
-//   }
-// }
+
+
 
 // Retirer un item du panier
 

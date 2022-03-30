@@ -72,7 +72,7 @@ function getPanier(){
   }
 }
 
-// Création de l'ajout au panier
+//---------- Création de l'ajout au panier ----------
 
 function addPanier(){
   var objectCart = {}
@@ -96,57 +96,8 @@ function addPanier(){
   savePanier(panier);
 }
 
+//---------- Mise en place du bouton "Ajouter au panier" ---------- 
 
-
-
-// Retirer un item du panier
-
-// function removeFromPanier(){
-//   let panier = getPanier();
-//   panier = panier.filter(p => p.id != objectCart.id);
-//   savePanier(panier);
-// }
-
-// Changer la quantitée (est-ce que c'est nécessaire?)
-
-// function changeQuantity(item,quantity){
-//   let panier = getPanier();
-//   let foundItem = panier.find(p => p.id == item.id);
-//   if(foundItem != undefined){
-//     foundItem.quantity += quantity;
-//     if(foundItem.quantity <= 0){
-//       removeFromPanier(foundItem);
-//     }
-//   }
-//   savePanier(panier);
-// } //ne fonctionne pas ?
-
-// Nombre d'article dans le panier
-
-// function getNumberItem(){
-//   let panier = getPanier();
-//   let number =  0;
-//   for(let item of panier){
-//     number += item.quantity;
-//   }
-//   return number;
-// }
-
-// // Prix total du panier
-// function getTotalPrice(){
-//   let panier = getPanier();
-//   let total =  0;
-//   for(let item of panier){
-//     total += item.quantity * item.price;
-//   }
-//   return total;
-// }
-
-
-//-------------------- FIN ---------------------
-
-
-// Mise en place du bouton "Ajouter au panier"
 let addToCart = document.getElementById("addToCart")
 // Enregistrer le bouton
 addToCart.addEventListener("click",addPanier)

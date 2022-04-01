@@ -1,8 +1,8 @@
 // Récupération des articles qui sont dans le localStorage
-let panier = localStorage.getItem("panier");
-console.log('panier', panier)
+let cart = localStorage.getItem("cart");
+console.log('cart', cart)
 
-let objPanier = JSON.parse(panier);
+let cartItem = JSON.parse(cart);
 
 //---------- Affichage des articles du panier ----------
 
@@ -10,30 +10,30 @@ let objPanier = JSON.parse(panier);
 const cart__items = document.getElementById("cart__items");
 console.log(cart__items);
 
-// Si le panier est vide, afficher : Le panier est vide
-if(panier == null){
-  console.log('panier vide')
-}else{
+function displayCart(){
+  // Si le panier est vide, afficher : Le panier est vide
+  if(cart == null){
+    console.log('panier vide')
+  }else{
   
   // Si le panier n'est pas vide, afficher les articles
-  for (let k=0; k < objPanier.length; k++){
-     console.log(objPanier.length);
-    // console.log(objPanier[k]);
+  for (let k=0; k < cartItem.length; k++){
+    console.log(cartItem.length);
     cart__items.innerHTML += 
-    `<article class="cart__item" data-id="${objPanier[k].info._id}" data-color="${objPanier[k].colors}">
+    `<article class="cart__item" data-id="${cartItem[k].info._id}" data-color="${cartItem[k].colors}">
         <div class="cart__item__img">
-          <img src="${objPanier[k].info.imageUrl}" alt="${objPanier[k].info.altTxt}">
+          <img src="${cartItem[k].info.imageUrl}" alt="${cartItem[k].info.altTxt}">
         </div>
         <div class="cart__item__content">
           <div class="cart__item__content__description">
-            <h2>${objPanier[k].info.name}</h2>
-            <p>${objPanier[k].info.colors}</p>
-            <p>${objPanier[k].info.price} €</p>
+            <h2>${cartItem[k].info.name}</h2>
+            <p>${cartItem[k].selectedVariant}</p>
+            <p>${cartItem[k].info.price} €</p>
           </div>
           <div class="cart__item__content__settings">
             <div class="cart__item__content__settings__quantity">
-              <p>Qté :${objPanier[k].quantity} </p>
-              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${panier.quantity}">
+              <p>Qté :${cartItem[k].quantity} </p>
+              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${cart.quantity}">
             </div>
             <div class="cart__item__content__settings__delete">
               <p class="deleteItem">Supprimer</p>
@@ -41,8 +41,12 @@ if(panier == null){
           </div>
         </div>
       </article>`;
+    }
   }
 }
+  
+// Appel de la fonction pour afficher le panier
+displayCart()
 
 // Stockage des éléments à l'intérieur de tableaux
 let deleteItemContainer = [...document.getElementsByClassName('deleteItem')]
@@ -56,42 +60,42 @@ deleteItemContainer.forEach((item, index) => {
     let pickArticle = deleteItemContainer[index].closest('.cart__item')
     pickArticle.remove()
     // Dans le local storage
-    objPanier.splice(index, 1)
-    localStorage.setItem("panier", JSON.stringify(objPanier))
-    location.reload()
+    cartItem.splice(index, 1)
+    localStorage.setItem("cart", JSON.stringify(cartItem))
   })
 })
 
 //---------- Modification de la quantité d'un produit ----------
-// !!! problème !!!
 quantityContainer.forEach((cart__items, index) => {
   cart__items.addEventListener('change', () => { 
 // Au click, modifie l'objet sur le LocalStorage et le dom
-      objPanier[index].quantity = quantityContainer[index].value
-      localStorage.setItem("panier", JSON.stringify(objPanier))
-      location.reload()
+      cartItem[index].quantity = quantityContainer[index].value
+      console.log('index', index)
+      console.log('quantityContainer', quantityContainer[index].value)
+      console.log('cartItem Index', cartItem[index])
+      localStorage.setItem("cart", JSON.stringify(cartItem))
   })
 })
 
 //---------- Affichage du prix total et de la quantité totale ----------
 
-let totObjPanier = 0
-let totPrice = 0
-let totalQuantity = document.getElementById('totalQuantity')
-let totalPrice = document.getElementById('totalPrice')
+let cartItemTotal = 0
+let priceTotal = 0
+let totalQuantityDOM = document.getElementById('totalQuantity')
+let totalPriceDOM = document.getElementById('totalPrice')
 
-if (objPanier !== null) {
-  for (let j = 0; j < objPanier.length; j++) {
-    let quantityLoop = parseInt(objPanier[j].quantity)
-    let priceLoop = parseInt(objPanier[j].price)
-    totObjPanier += quantityLoop
-    totPrice += priceLoop * quantityLoop
+if (cartItem !== null) {
+  for (let j = 0; j < cartItem.length; j++) {
+    let quantityLoop = parseInt(cartItem[j].quantity)
+    let priceLoop = parseInt(cartItem[j].info.price)
+    cartItemTotal += quantityLoop
+    priceTotal += priceLoop * quantityLoop
   }
 }
 
 if (totalQuantity && totalPrice) {
-  totalQuantity.innerHTML = totObjPanier
-  totalPrice.innerHTML = totPrice //!!! affiche NaN au lieu du prix total 
+  totalQuantityDOM.innerHTML = cartItemTotal
+  totalPriceDOM.innerHTML = priceTotal 
 }
 
 
@@ -104,7 +108,7 @@ let RegEx1 = /^[a-zA-Zàáâäãåąčćęèéêëėįìíîïłńòóôöõøù
 let RegEx2 = /^[a-zA-Z\-1-9]+$/;
 
 // Formulaire Contact
-addEventListener('change', () => {
+// addEventListener('change', () => {
   
   //Vérification Prénom
   function validFirstName() {
@@ -131,6 +135,8 @@ addEventListener('change', () => {
     let text = document.getElementById('lastNameErrorMsg')
     let pattern = RegEx1;
     let number = RegEx2;
+    console.log('last name', lastName)
+    console.log('text', text)
 
     if (lastName.match(pattern)) {
       return lastName
@@ -147,9 +153,9 @@ addEventListener('change', () => {
   function validAddress() {
     let address = document.getElementById('address').value
     let text = document.getElementById('addressErrorMsg')
-    let pattern = '([0-9a-zA-Z,. ]*) ?([0-9]{5}) ?([a-zA-Z]*)'
+    let pattern = /^[a-zA-Z0-9\s,'-]*$/
 
-    if (address.match(pattern)) {
+    if (address.match(pattern,)) {
       return address
     } else {
       text.innerHTML =
@@ -185,14 +191,15 @@ addEventListener('change', () => {
       text.innerHTML = 'Veuillez renseigner une adresse valide. Exemple : juliedupont@gmail.com'
       text.style.color = color2;
     }
+    console.log('test')
   }
 
   // Appels des fonctions pour les alertes sur le DOM
-  validFirstName()
-  validLastName()
-  validAddress()
-  validCity()
-  validEmail()
+  // validFirstName()
+  // validLastName()
+  // validAddress()
+  // validCity()
+  // validEmail()
 
   //---------- Envoi de la commande vers l'API ----------
 
@@ -200,6 +207,12 @@ addEventListener('change', () => {
 
   // Click du bouton 'COMMANDER'
   order.addEventListener('click',(e)=>{
+  validFirstName()
+  validLastName()
+  validAddress()
+  validCity()
+  validEmail()
+  
     e.preventDefault();
     // Création d'un object Contact pour récupérer les données de l'utilisateur
     let contact = {
@@ -220,8 +233,8 @@ addEventListener('change', () => {
         let products = [];
 
         // On boucle pour récupérer les id et les injecter dans le tableau 'products'
-        objPanier.forEach(order => {
-        products.push(order.id)
+        cartItem.forEach(item => {
+        products.push(item.info._id)
         });
 
         let clientOrder = {contact , products};
@@ -238,10 +251,11 @@ addEventListener('change', () => {
         })
         .then((data)=>{
         window.location.href =`confirmation.html?orderId=${data.orderId}`;
+        console.log('order id', data.orderId)
         })
         .catch((error)=>{
             alert(error);
         })
     }
   })
-})
+// })

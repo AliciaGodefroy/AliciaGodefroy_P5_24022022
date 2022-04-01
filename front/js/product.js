@@ -53,35 +53,32 @@ function displayProduct(product){
     }
 }
 
-/*import { addPanier } from '../js/panier.js';*/
-
-
 //-------------------- MISE EN PLACE DU LOCAL STORAGE ---------------------
 
-function savePanier(panier){
-  localStorage.setItem("panier", JSON.stringify(panier)); //JSON.stringify permet de transformer l'objet en chaine de caractères
+function saveCart(cart){
+  localStorage.setItem("cart", JSON.stringify(cart)); //JSON.stringify permet de transformer l'objet en chaine de caractères
 }
 
-function getPanier(){
-  let panier = localStorage.getItem("panier");
-  console.log('panier', panier)
-  if(panier == null){
+function getCart(){
+  let cart = localStorage.getItem("cart");
+  console.log('cart', cart)
+  if(cart == null){
     return [ ];
   }else{
-    return JSON.parse(panier); // JSON.parse permet de retranformer la chaine de caractère en objet
+    return JSON.parse(cart); // JSON.parse permet de retranformer la chaine de caractère en objet
   }
 }
 
-//---------- Création de l'ajout au panier ----------
+//---------- Création de l'ajout au panier 
 
-function addPanier(){
+function addtoCart(){
   var objectCart = {}
-  let panier = getPanier();
+  let cart = getCart();
   objectCart.info = globalProduct
   objectCart.quantity = document.getElementById("quantity").value
   objectCart.selectedVariant = document.getElementById("colors").value
   // On vérifie si le produit est déjà existant dans le panier
-  let foundProduct = panier.find(p => p.id == objectCart._id&& p.selectedVariant == objectCart.selectedVariant);
+  let foundProduct = cart.find(p => p.id == objectCart._id&& p.selectedVariant == objectCart.selectedVariant);
   // Si le produit est différent d'une valeur non définie (et donc égal à un produit dans le panier)
   if(foundProduct != undefined){
     // On incrémente la quantité en plus
@@ -91,15 +88,15 @@ function addPanier(){
   }
   // Sinon, on ajoute simplement le produit (et donc son id, sa quantité et sa couleur) au panier
   else {
-    panier.push(objectCart); // On considère le panier comme un tableau, et on push l'item dans le tableau
+    cart.push(objectCart); // On considère le panier comme un tableau, et on push l'item dans le tableau
   }
-  savePanier(panier);
+  saveCart(cart);
 }
 
 //---------- Mise en place du bouton "Ajouter au panier" ---------- 
 
-let addToCart = document.getElementById("addToCart")
+let addToCartDOM = document.getElementById("addToCart")
 // Enregistrer le bouton
-addToCart.addEventListener("click",addPanier)
+addToCartDOM.addEventListener("click",addtoCart)
 
 

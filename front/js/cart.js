@@ -108,98 +108,99 @@ let RegEx1 = /^[a-zA-Zàáâäãåąčćęèéêëėįìíîïłńòóôöõøù
 let RegEx2 = /^[a-zA-Z\-1-9]+$/;
 
 // Formulaire Contact
-// addEventListener('change', () => {
   
-  //Vérification Prénom
-  function validFirstName() {
-    let firstName = document.getElementById('firstName').value
-    let text = document.getElementById('firstNameErrorMsg')
-  // Prise en compte les Regex
-    let pattern = RegEx1;
-    let number = RegEx2;
+  //--- Vérification Prénom
 
-    if (firstName.match(pattern)) {
-      return firstName
-    } else  if (firstName.match(number)) {
-              text.innerHTML = 'Les chiffres ne sont pas tolérés.'
-              text.style.color = color2;
-      } else {
-              text.innerHTML = 'Veuillez renseigner un prénom valide.'
-              text.style.color = color2;
-      }
-  }
+  // Déclaration des variables 
+  let firstName = document.getElementById('firstName')
+  let errorFirstName = document.getElementById('firstNameErrorMsg')
+  let regexName = /^[a-z ,.'-]+$/i;
+
+  // Évenement Input pour indiquer s'il y a une erreur
+  firstName.addEventListener('input',(e)=>{
+    e.preventDefault();
+    if (regexName.test(firstName.value)==false) {
+        errorFirstName.innerHTML = "Veuillez renseigner un prénom valide (les chiffres ne sont pas tolérés).";
+        errorFirstName.style.color = color2;
+    }else{
+        errorFirstName.innerHTML = "";
+    }
+  });
+  
         
-  // Vérification Nom
-  function validLastName() {
-    let lastName = document.getElementById('lastName').value
-    let text = document.getElementById('lastNameErrorMsg')
-    let pattern = RegEx1;
-    let number = RegEx2;
-    console.log('last name', lastName)
-    console.log('text', text)
+  //--- Vérification Nom
 
-    if (lastName.match(pattern)) {
-      return lastName
-    } else if (lastName.match(number)) {
-        text.innerHTML = 'Les chiffres ne sont pas tolérés.'
-        text.style.color = color2;
-      } else {
-        text.innerHTML = 'Veuillez renseigner un nom valide.'
-        text.style.color = color2;
+  // Déclaration des variables
+  let lastName = document.getElementById('lastName')
+  let errorLastName = document.getElementById('lastNameErrorMsg')
+
+  // Évenement Input pour indiquer s'il y a une erreur
+  lastName.addEventListener('input',(e)=>{
+    e.preventDefault();
+    if (regexName.test(lastName.value)==false) {
+        errorLastName.innerHTML = "Veuillez renseigner un nom valide (les chiffres ne sont pas tolérés).";
+        errorLastName.style.color = color2;
+    }else{
+        errorLastName.innerHTML = "";
       }
-  }
+  });
+  
         
-  //Vérification Addresse
-  function validAddress() {
-    let address = document.getElementById('address').value
-    let text = document.getElementById('addressErrorMsg')
-    let pattern = /^[a-zA-Z0-9\s,'-]*$/
+  //--- Vérification Addresse
 
-    if (address.match(pattern,)) {
-      return address
-    } else {
-      text.innerHTML =
-        'Veuillez renseigner une adresse valide. Exemple : 23 rue des Écouffes, 75001 Paris'
-      text.style.color = color2;
+  // Déclaration des variables
+  let address = document.getElementById('address')
+  let errorAddress = document.getElementById('addressErrorMsg')
+  let regexAdress = /^[a-zA-Z0-9\s,'-]*$/
+
+  // Évenement Input pour indiquer s'il y a une erreur
+  address.addEventListener('input', (e)=>{
+    e.preventDefault();
+    if(regexAdress.test(address.value)== false){
+      errorAddress.innerHTML="Veuillez renseigner une adresse valide. Exemple : 23 rue des Écouffes, 75001 Paris";
+      errorAddress.style.color = color2;
+    }else{
+      errorAddress.innerHTML = "";
     }
-  }
-  // Vérification Ville
-  function validCity() {
-    let city = document.getElementById('city').value
-    let text = document.getElementById('cityErrorMsg')
-    let pattern = /^[a-z ,.'-]+$/i
+  })
 
-    if (city.match(pattern)) {
-      return city
-    } else {
-      text.innerHTML = 'Veuillez renseigner une ville valide'
-      text.style.color = color2;
+
+  //--- Vérification Ville
+
+  // Déclaration des variables
+  let city = document.getElementById('city')
+  let errorCity = document.getElementById('cityErrorMsg')
+  let regexCity = /^[a-z ,.'-]+$/i
+
+  // Évenement Input pour indiquer s'il y a une erreur
+  city.addEventListener('input', (e)=>{
+    e.preventDefault();
+    if(regexCity.test(city.value)== false){
+      errorCity.innerHTML="Veuillez renseigner une ville valide.";
+      errorCity.style.color = color2;
+    }else{
+      errorCity.innerHTML = "";
     }
- }
-  //Vérification Email
-  function validEmail() {
-    let mail = document.getElementById('email').value
-    let text = document.getElementById('emailErrorMsg')
-    let pattern = new RegExp(
-      '^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$',
-      'g'
-    )
+  })
+ 
+  //--- Vérification Email
 
-    if (mail.match(pattern)) {
-      return mail
-    } else {
-      text.innerHTML = 'Veuillez renseigner une adresse valide. Exemple : juliedupont@gmail.com'
-      text.style.color = color2;
+  // Déclaration des variables
+  let email = document.getElementById('email')
+  let errorEmail = document.getElementById('emailErrorMsg')
+  let regexEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+  // Évenement Input pour indiquer s'il y a une erreur
+  email.addEventListener('input',(e)=>{
+    e.preventDefault();
+    if (regexEmail.test(email.value)==false) {
+        errorEmail.innerHTML = "Veuillez renseigner une adresse valide. Exemple : juliedupont@gmail.com";
+        errorEmail.style.color = color2;
+    }else{
+        errorEmail.innerHTML = "";
     }
-    console.log('test')
-  }
+  });
 
-  // Appels des fonctions pour les alertes sur le DOM
-  // validFirstName()
-  // validLastName()
-  // validAddress()
-  // validCity()
-  // validEmail()
 
   //---------- Envoi de la commande vers l'API ----------
 
@@ -207,28 +208,28 @@ let RegEx2 = /^[a-zA-Z\-1-9]+$/;
 
   // Click du bouton 'COMMANDER'
   order.addEventListener('click',(e)=>{
-  validFirstName()
-  validLastName()
-  validAddress()
-  validCity()
-  validEmail()
-  
-    e.preventDefault();
-    // Création d'un object Contact pour récupérer les données de l'utilisateur
+  e.preventDefault();
+    
+  // Création d'un object Contact pour récupérer les données de l'utilisateur
     let contact = {
-        firstName : validFirstName(),
-        lastName : validLastName(),
-        address : validAddress(),
-        city : validCity(),
-        email : validEmail(),
+      firstName : firstName.value,
+      lastName : lastName.value,
+      address : address.value,
+      city : city.value,
+      email : email.value,
     }
+    
     // Si l'utilisateur n'a pas rempli certaines données :
-    if (validFirstName() === ""|| validLastName() === ""|| validAddress() === "" || validCity() === "" || validEmail() === "") {
+    if (firstName.value === ""|| lastName.value === ""|| address.value === "" || city.value === "" || email.value === "") {
         window.confirm("Merci de renseigner tous les champs du formulaire")
         // La page ne s'actualise pas
         window.onbeforeunload;
-    // Sinon, on créé un tableau qui envoie les données à l'API    
-    }else{
+    }  else if (regexEmail.test(email.value)==false || regexCity.test(city.value)== false || regexAdress.test(address.value)== false || regexName.test(lastName.value)==false || regexName.test(firstName.value)==false){
+        window.confirm("Merci de renseigner correctement tous les champs du formulaire")
+        // La page ne s'actualise pas
+        window.onbeforeunload;
+      }
+      else{ // Sinon, on créé un tableau qui envoie les données à l'API  
         
         let products = [];
 
@@ -258,4 +259,3 @@ let RegEx2 = /^[a-zA-Z\-1-9]+$/;
         })
     }
   })
-// })

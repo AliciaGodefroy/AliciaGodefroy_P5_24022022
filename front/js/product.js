@@ -72,6 +72,7 @@ function getCart(){
 //---------- Création de l'ajout au panier 
 
 function addtoCart(){
+  let error = 0
   var objectCart = {}
   let cart = getCart();
   objectCart.info = globalProduct
@@ -79,16 +80,31 @@ function addtoCart(){
   objectCart.selectedVariant = document.getElementById("colors").value
   // On vérifie si le produit est déjà existant dans le panier
   let foundProduct = cart.find(p => p.id == objectCart._id&& p.selectedVariant == objectCart.selectedVariant);
+  console.log( typeof objectCart.selectedVariant)
+  console.log('objectCart.selectedVariant', objectCart.selectedVariant)
   // Si le produit est différent d'une valeur non définie (et donc égal à un produit dans le panier)
   if(foundProduct != undefined){
     // On incrémente la quantité en plus
     const n = parseInt(foundProduct.quantity);
     const m = parseInt(objectCart.quantity);
     foundProduct.quantity = (n+m).toString();
-  }
-  // Sinon, on ajoute simplement le produit (et donc son id, sa quantité et sa couleur) au panier
-  else {
-    cart.push(objectCart); // On considère le panier comme un tableau, et on push l'item dans le tableau
+  } else {
+    if (objectCart.quantity < 1){
+      error = 1;
+      window.confirm("Merci de choisir une quantité supérieure à 0.")
+      // La page ne s'actualise pas
+      window.onbeforeunload;
+    } 
+    if (objectCart.selectedVariant === ""){
+      error = 2;
+      window.confirm("Merci de choisir une couleur.")
+      // La page ne s'actualise pas
+      window.onbeforeunload;
+    } 
+    if (error === 0) {
+      console.log('ajout panier')
+      cart.push(objectCart); // On considère le panier comme un tableau, et on push l'item dans le tableau
+    }
   }
   saveCart(cart);
 }

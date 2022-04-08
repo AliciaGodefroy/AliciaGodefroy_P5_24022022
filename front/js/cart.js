@@ -10,6 +10,8 @@ let cartItem = JSON.parse(cart);
 const cart__items = document.getElementById("cart__items");
 console.log(cart__items);
 
+// FONCTION : AFFICHER LE PANIER
+
 function displayCart(){
   // Si le panier est vide, afficher : Le panier est vide
   if(cart == null){
@@ -32,8 +34,8 @@ function displayCart(){
           </div>
           <div class="cart__item__content__settings">
             <div class="cart__item__content__settings__quantity">
-              <p>Qté :${cartItem[k].quantity} </p>
-              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${cart.quantity}">
+              <p>Qté :</p>
+              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${cartItem[k].quantity}">
             </div>
             <div class="cart__item__content__settings__delete">
               <p class="deleteItem">Supprimer</p>
@@ -44,6 +46,26 @@ function displayCart(){
     }
   }
 }
+
+// FONCTION : AFFICHER LE TOTAL (QUANTITÉ + PRIX)
+
+function displayTotals(tab) {
+  let resultObj = {
+    totalQuantity: 0,
+    totalPrice: 0
+  }
+
+  for (let j = 0; j < tab.length; j++) {
+    resultObj.totalQuantity += parseInt(tab[j].quantity);
+    resultObj.totalPrice += parseInt(tab[j].info.price);
+  }
+
+  totalQuantityDOM.innerHTML = resultObj.totalQuantity
+  totalPriceDOM.innerHTML = resultObj.totalPrice
+  return resultObj
+}
+
+//------
   
 // Appel de la fonction pour afficher le panier
 displayCart()
@@ -52,13 +74,49 @@ displayCart()
 let deleteItemContainer = [...document.getElementsByClassName('deleteItem')]
 let quantityContainer = [...document.getElementsByClassName('itemQuantity')]
 
+//---------- Affichage du prix total et de la quantité totale ----------
+
+let cartItemTotal = 0
+let priceTotal = 0
+let totalQuantityDOM = document.getElementById('totalQuantity')
+let totalPriceDOM = document.getElementById('totalPrice')
+
+
+// EXEMPLE MENTOR                                   
+let monTotal = displayTotals(cartItem)
+console.log('monTotal', monTotal)
+// const itemQuantityDOM = document.getElementsByClassName('itemQuantity')
+// for (const itemQuantity of itemQuantityDOM){
+//   itemQuantity.addEventListener("input",displayTotals(cartItem))
+// }
+
+// -----
+
+// function displayTotals(){
+//   console.log('displayTotal')
+//   if (cartItem !== null) {
+//     for (let j = 0; j < cartItem.length; j++) {
+//       let quantityLoop = parseInt(cartItem[j].quantity)
+//       let priceLoop = parseInt(cartItem[j].info.price)
+//       cartItemTotal += quantityLoop
+//       priceTotal += priceLoop * quantityLoop
+//     }
+//   }
+  
+//   if (totalQuantity && totalPrice) {
+//     totalQuantityDOM.innerHTML = cartItemTotal
+//     totalPriceDOM.innerHTML = priceTotal 
+//   }
+// }
+// displayTotals()
+
 //---------- Suppression d'un produit du panier ----------
 
 deleteItemContainer.forEach((item, index) => {
   item.addEventListener('click', () => {
     // Dans le DOM
-    let pickArticle = deleteItemContainer[index].closest('.cart__item')
-    pickArticle.remove()
+    let itemToRemove = deleteItemContainer[index].closest('.cart__item')
+    itemToRemove.remove()
     // Dans le local storage
     cartItem.splice(index, 1)
     localStorage.setItem("cart", JSON.stringify(cartItem))
@@ -70,33 +128,9 @@ quantityContainer.forEach((cart__items, index) => {
   cart__items.addEventListener('change', () => { 
 // Au click, modifie l'objet sur le LocalStorage et le dom
       cartItem[index].quantity = quantityContainer[index].value
-      console.log('index', index)
-      console.log('quantityContainer', quantityContainer[index].value)
-      console.log('cartItem Index', cartItem[index])
       localStorage.setItem("cart", JSON.stringify(cartItem))
   })
 })
-
-//---------- Affichage du prix total et de la quantité totale ----------
-
-let cartItemTotal = 0
-let priceTotal = 0
-let totalQuantityDOM = document.getElementById('totalQuantity')
-let totalPriceDOM = document.getElementById('totalPrice')
-
-if (cartItem !== null) {
-  for (let j = 0; j < cartItem.length; j++) {
-    let quantityLoop = parseInt(cartItem[j].quantity)
-    let priceLoop = parseInt(cartItem[j].info.price)
-    cartItemTotal += quantityLoop
-    priceTotal += priceLoop * quantityLoop
-  }
-}
-
-if (totalQuantity && totalPrice) {
-  totalQuantityDOM.innerHTML = cartItemTotal
-  totalPriceDOM.innerHTML = priceTotal 
-}
 
 
 //---------- Gestion du formulaire ----------

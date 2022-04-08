@@ -2,7 +2,7 @@
 let cart = localStorage.getItem("cart");
 console.log('cart', cart)
 
-let cartItem = JSON.parse(cart);
+let cartItems = JSON.parse(cart);
 
 //---------- Affichage des articles du panier ----------
 
@@ -12,30 +12,30 @@ console.log(cart__items);
 
 // FONCTION : AFFICHER LE PANIER
 
-function displayCart(){
+function displayCart(myItems){
+  const cartItemsElem = document.getElementById("cart__items");
   // Si le panier est vide, afficher : Le panier est vide
   if(cart == null){
     console.log('panier vide')
   }else{
   
   // Si le panier n'est pas vide, afficher les articles
-  for (let k=0; k < cartItem.length; k++){
-    console.log(cartItem.length);
-    cart__items.innerHTML += 
-    `<article class="cart__item" data-id="${cartItem[k].info._id}" data-color="${cartItem[k].colors}">
+  for (let k=0; k < myItems.length; k++){
+    cartItemsElem.innerHTML += 
+    `<article class="cart__item" data-id="${myItems[k].info._id}" data-color="${myItems[k].colors}">
         <div class="cart__item__img">
-          <img src="${cartItem[k].info.imageUrl}" alt="${cartItem[k].info.altTxt}">
+          <img src="${myItems[k].info.imageUrl}" alt="${myItems[k].info.altTxt}">
         </div>
         <div class="cart__item__content">
           <div class="cart__item__content__description">
-            <h2>${cartItem[k].info.name}</h2>
-            <p>${cartItem[k].selectedVariant}</p>
-            <p>${cartItem[k].info.price} €</p>
+            <h2>${myItems[k].info.name}</h2>
+            <p>${myItems[k].selectedVariant}</p>
+            <p>${myItems[k].info.price} €</p>
           </div>
           <div class="cart__item__content__settings">
             <div class="cart__item__content__settings__quantity">
               <p>Qté :</p>
-              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${cartItem[k].quantity}">
+              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${myItems[k].quantity}">
             </div>
             <div class="cart__item__content__settings__delete">
               <p class="deleteItem">Supprimer</p>
@@ -45,70 +45,38 @@ function displayCart(){
       </article>`;
     }
   }
+  displayTotals(cartItems)
 }
 
 // FONCTION : AFFICHER LE TOTAL (QUANTITÉ + PRIX)
 
 function displayTotals(tab) {
-  let resultObj = {
+  let totalsObj = {
     totalQuantity: 0,
     totalPrice: 0
   }
 
   for (let j = 0; j < tab.length; j++) {
-    resultObj.totalQuantity += parseInt(tab[j].quantity);
-    resultObj.totalPrice += parseInt(tab[j].info.price);
+    totalsObj.totalQuantity += parseInt(tab[j].quantity);
+    totalsObj.totalPrice += parseInt(tab[j].info.price) * parseInt(tab[j].quantity); // Demander explications
   }
+  console.log('totalsObj', totalsObj)
 
-  totalQuantityDOM.innerHTML = resultObj.totalQuantity
-  totalPriceDOM.innerHTML = resultObj.totalPrice
-  return resultObj
+  let totalQuantityDOM = document.getElementById('totalQuantity')
+  let totalPriceDOM = document.getElementById('totalPrice')
+  totalQuantityDOM.innerHTML = totalsObj.totalQuantity
+  totalPriceDOM.innerHTML = totalsObj.totalPrice
 }
 
 //------
   
 // Appel de la fonction pour afficher le panier
-displayCart()
+displayCart(cartItems)
 
 // Stockage des éléments à l'intérieur de tableaux
 let deleteItemContainer = [...document.getElementsByClassName('deleteItem')]
 let quantityContainer = [...document.getElementsByClassName('itemQuantity')]
 
-//---------- Affichage du prix total et de la quantité totale ----------
-
-let cartItemTotal = 0
-let priceTotal = 0
-let totalQuantityDOM = document.getElementById('totalQuantity')
-let totalPriceDOM = document.getElementById('totalPrice')
-
-
-// EXEMPLE MENTOR                                   
-let monTotal = displayTotals(cartItem)
-console.log('monTotal', monTotal)
-// const itemQuantityDOM = document.getElementsByClassName('itemQuantity')
-// for (const itemQuantity of itemQuantityDOM){
-//   itemQuantity.addEventListener("input",displayTotals(cartItem))
-// }
-
-// -----
-
-// function displayTotals(){
-//   console.log('displayTotal')
-//   if (cartItem !== null) {
-//     for (let j = 0; j < cartItem.length; j++) {
-//       let quantityLoop = parseInt(cartItem[j].quantity)
-//       let priceLoop = parseInt(cartItem[j].info.price)
-//       cartItemTotal += quantityLoop
-//       priceTotal += priceLoop * quantityLoop
-//     }
-//   }
-  
-//   if (totalQuantity && totalPrice) {
-//     totalQuantityDOM.innerHTML = cartItemTotal
-//     totalPriceDOM.innerHTML = priceTotal 
-//   }
-// }
-// displayTotals()
 
 //---------- Suppression d'un produit du panier ----------
 
@@ -118,8 +86,9 @@ deleteItemContainer.forEach((item, index) => {
     let itemToRemove = deleteItemContainer[index].closest('.cart__item')
     itemToRemove.remove()
     // Dans le local storage
-    cartItem.splice(index, 1)
-    localStorage.setItem("cart", JSON.stringify(cartItem))
+    cartItems.splice(index, 1)
+    displayTotals(cartItems)
+    localStorage.setItem("cart", JSON.stringify(cartItems))
   })
 })
 
@@ -127,8 +96,9 @@ deleteItemContainer.forEach((item, index) => {
 quantityContainer.forEach((cart__items, index) => {
   cart__items.addEventListener('change', () => { 
 // Au click, modifie l'objet sur le LocalStorage et le dom
-      cartItem[index].quantity = quantityContainer[index].value
-      localStorage.setItem("cart", JSON.stringify(cartItem))
+      cartItems[index].quantity = quantityContainer[index].value
+      displayTotals(cartItems)
+      localStorage.setItem("cart", JSON.stringify(cartItems))
   })
 })
 

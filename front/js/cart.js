@@ -238,7 +238,7 @@ let RegEx2 = /^[a-zA-Z\-1-9]+$/;
         let products = [];
 
         // On boucle pour récupérer les id et les injecter dans le tableau 'products'
-        cartItem.forEach(item => {
+        cartItems.forEach(item => {
         products.push(item.info._id)
         });
 

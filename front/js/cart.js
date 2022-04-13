@@ -107,9 +107,6 @@ quantityContainer.forEach((cart__items, index) => {
 
 // Variables  du formulaire Contact
 let color2 = '#cfe9fa';
-// Mise en place RegEx les plus larges possibles pour éviter les erreurs de caratéres 
-let RegEx1 = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u;
-let RegEx2 = /^[a-zA-Z\-1-9]+$/;
 
 // Formulaire Contact
   

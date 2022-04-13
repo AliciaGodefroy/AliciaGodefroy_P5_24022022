@@ -1,10 +1,8 @@
 // Récupérer les paramètres de l'URL
 let url = new URL(document.location)
-console.log(url)
 
 // Récupérer l'ID
 let id = url.searchParams.get("id")
-console.log(id)
 
 var globalProduct = {}
 
@@ -23,7 +21,6 @@ fetch('http://localhost:3000/api/products/'+id)
 
 function displayProduct(product){
   // Créer les éléments DOM
-  console.log(product.colors)
 
     //Image
     let productImage = document.createElement("img");
@@ -61,7 +58,6 @@ function saveCart(cart){
 
 function getCart(){
   let cart = localStorage.getItem("cart");
-  console.log('cart', cart)
   if(cart == null){
     return [ ];
   }else{
@@ -80,8 +76,6 @@ function addtoCart(){
   objectCart.selectedVariant = document.getElementById("colors").value
   // On vérifie si le produit est déjà existant dans le panier
   let foundProduct = cart.find(p => p.id == objectCart._id&& p.selectedVariant == objectCart.selectedVariant);
-  console.log( typeof objectCart.selectedVariant)
-  console.log('objectCart.selectedVariant', objectCart.selectedVariant)
   // Si le produit est différent d'une valeur non définie (et donc égal à un produit dans le panier)
   if(foundProduct != undefined){
     // On incrémente la quantité en plus
@@ -102,7 +96,6 @@ function addtoCart(){
       window.onbeforeunload;
     } 
     if (error === 0) {
-      console.log('ajout panier')
       cart.push(objectCart); // On considère le panier comme un tableau, et on push l'item dans le tableau
     }
   }

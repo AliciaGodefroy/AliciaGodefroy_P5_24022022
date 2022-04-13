@@ -1,6 +1,5 @@
 // Récupération des articles qui sont dans le localStorage
 let cart = localStorage.getItem("cart");
-console.log('cart', cart)
 
 let cartItems = JSON.parse(cart);
 
@@ -8,7 +7,6 @@ let cartItems = JSON.parse(cart);
 
 // Sélection de la class où j'injecte le code HTML
 const cart__items = document.getElementById("cart__items");
-console.log(cart__items);
 
 // FONCTION : AFFICHER LE PANIER
 
@@ -16,7 +14,6 @@ function displayCart(myItems){
   const cartItemsElem = document.getElementById("cart__items");
   // Si le panier est vide, afficher : Le panier est vide
   if(cart == null){
-    console.log('panier vide')
   }else{
   
   // Si le panier n'est pas vide, afficher les articles
@@ -60,7 +57,6 @@ function displayTotals(tab) {
     totalsObj.totalQuantity += parseInt(tab[j].quantity);
     totalsObj.totalPrice += parseInt(tab[j].info.price) * parseInt(tab[j].quantity); // Demander explications
   }
-  console.log('totalsObj', totalsObj)
 
   let totalQuantityDOM = document.getElementById('totalQuantity')
   let totalPriceDOM = document.getElementById('totalPrice')
@@ -253,7 +249,6 @@ let color2 = '#cfe9fa';
         })
         .then((data)=>{
         window.location.href =`confirmation.html?orderId=${data.orderId}`;
-        console.log('order id', data.orderId)
         })
         .catch((error)=>{
             alert(error);

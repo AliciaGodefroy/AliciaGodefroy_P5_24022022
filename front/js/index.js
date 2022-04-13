@@ -13,7 +13,6 @@ async function getArticles(){
     })
     .then(function(articles){
       displayArticle(articles)
-      console.log(articles)
     })
     .catch(function(err){
       alert(err)
@@ -24,7 +23,6 @@ function displayArticle(articles){
   let items = document.querySelector(".items")
   // boucler sur les articles
   for (let i = 0; i < articles.length; i++) {
-    console.log(articles[i])
 
     //Lien
     let productLink = document.createElement('a'); // 1 : Créer les éléments DOM

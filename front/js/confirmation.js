@@ -7,3 +7,6 @@ let orderId = url.searchParams.get("orderId");
 // Afficher le numéro de commande sur la page
 let confirmOrderId = document.getElementById('orderId');
 confirmOrderId.innerHTML = orderId; 
+
+// Vider le localStorage
+localStorage.clear()

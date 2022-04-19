@@ -55,7 +55,7 @@ function displayTotals(tab) {
 
   for (let j = 0; j < tab.length; j++) {
     totalsObj.totalQuantity += parseInt(tab[j].quantity);
-    totalsObj.totalPrice += parseInt(tab[j].info.price) * parseInt(tab[j].quantity); // Demander explications
+    totalsObj.totalPrice += parseInt(tab[j].info.price) * parseInt(tab[j].quantity); 
   }
 
   let totalQuantityDOM = document.getElementById('totalQuantity')

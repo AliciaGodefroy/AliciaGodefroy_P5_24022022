@@ -185,7 +185,7 @@ let color2 = '#cfe9fa';
   // Déclaration des variables
   let email = document.getElementById('email')
   let errorEmail = document.getElementById('emailErrorMsg')
-  let regexEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
   // Évenement Input pour indiquer s'il y a une erreur
   email.addEventListener('input',(e)=>{
